@@ -1,0 +1,74 @@
+#!/usr/local/bin/python3
+
+
+import subprocess
+
+"""
+ffmpeg -i zs_420714_CT.mp4 -i 1.png -i 2.png -filter_complex "overlay=x=100:y=100:enable='if(gt(t,5),lt(t,10))',overlay=x=100:y=100:enable='if(gt(t,15),lt(t,20))'" -y 0.mp4
+
+img = [
+        {
+            "img": "/Users/master/yx/yxp/web/video/6/1/999/c_01.png",
+            "x": "",
+            "y": "",
+            "str_time": "5",
+            "end_time": "15",
+        },
+        {
+            "img": "/Users/master/yx/yxp/web/video/6/1/999/c_01.png",
+            "x": "",
+            "y": "",
+            "str_time": "20",
+            "end_time": "25.5"
+        }
+    ]
+"""
+
+
+def video_add_img(input_file, img_data, out_file):
+    try:
+        if len(img_data) <= 0:
+            return False
+
+        img_list = []
+        img_list_str = " -i "
+        png_complex = []
+        complex_png_str = ","
+
+        for img in img_data:
+            if len(img["x"]) == 0:
+                img["x"] = "0"
+
+            if len(img["y"]) == 0:
+                img["y"] = "0"
+            img_list.append(img["img"])
+
+            if len(img["str_time"]) > 0:
+                if len(img["end_time"]) > 0:
+                    cmp_str = "overlay=x=%s:y=%s:enable='if(gt(t,%s),lt(t,%s))'" % (img["x"], img["y"], img["str_time"], img["end_time"])
+                else:
+                    cmp_str = "overlay=x=%s:y=%s:enable='if(gt(t,%s))'" % (img["x"], img["y"], img["str_time"])
+            else:
+                cmp_str = "overlay=x=%s:y=%s" % (img["x"], img["y"])
+
+            png_complex.append(cmp_str)
+
+        img_str_list = img_list_str.join(img_list)
+        complex_png_str = complex_png_str.join(png_complex)
+
+        cmd = "ffmpeg -i %s -i %s -filter_complex \"%s\" -y %s" % (input_file, img_str_list, complex_png_str, out_file)
+
+        res = subprocess.call(cmd, shell=True)
+
+        if res != 0:
+            return False
+        return True
+
+    except Exception:
+        return False
+
+
+"""
+video_add_img("/Users/master/yx/yxp/web/video/6/1/999/tt.mp4", img,"/Users/master/yx/yxp/web/video/6/1/999/c_out.mp4")
+"""
+
