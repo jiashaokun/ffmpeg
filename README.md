@@ -1,5 +1,11 @@
 # ffmpeg python
 
+## 系统依赖
+ffmpeg 3.0 及以上
+python 3.0 及以上
+
+mac，linux，windows 相应的 gpu 显卡驱动 （使用硬编码时需支持）
+
 ### Install
 ```shell
 pip install ffmpeg
