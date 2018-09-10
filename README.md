@@ -39,7 +39,7 @@ img_data = [
         }
     ]
 
-video.video_add_img(input_file, img_data, out_file)
+video.ins_img(input_file, img_data, out_file)
 ```
 
 ### Demo 视频添加动图 gif apng 等
@@ -60,6 +60,6 @@ img_data = {
 }
 
 
-video.video_add_gif(input_file, img_data, out_file)
+video.ins_gif(input_file, img_data, out_file)
 ```
 

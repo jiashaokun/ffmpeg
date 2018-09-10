@@ -26,7 +26,7 @@ img = [
 """
 
 
-def video_add_img(input_file, img_data, out_file):
+def ins_img(input_file, img_data, out_file):
     try:
         if len(img_data) <= 0:
             return False
@@ -80,7 +80,7 @@ img = {
 """
 
 
-def video_add_gif(input_file, img_data, out_file):
+def ins_gif(input_file, img_data, out_file):
     try:
         if img_data["img"] == "":
             return False
@@ -113,6 +113,125 @@ def video_add_gif(input_file, img_data, out_file):
     except Exception:
         return False
 
+
+# 视频静音 分离音频流
+
+def separate_audio(input_file, out_file):
+    try:
+        cmd = "ffmpeg -y -i %s -vcodec copy -an %s" % (input_file, out_file)
+        res = subprocess.call(cmd, shell=True)
+
+        if res != 0:
+            return False
+        return True
+    except Exception:
+        return False
+
+
+# 视频静音 使用静音帧 为视频静音
+def video_ins_mute_audio(input_file, mute_mp3_file, out_file):
+    try:
+        cmd = "ffmpeg -y -i %s -filter_complex '[1:0]apad' -shortest %s" % (input_file, mute_mp3_file, out_file)
+        res = subprocess.call(cmd, shell=True)
+
+        if res != 0:
+            return False
+        return True
+    except Exception:
+        return False
+
+
+# 视频设置分辨率 及 码率
+def trans_code(input_file, width, height, rate, out_file):
+    try:
+        cmd = "ffmpeg -y -i %s -s %sx%s -b %sk -acodec copy %s" % (input_file, width, height, rate, out_file)
+        res = subprocess.call(cmd, shell=True)
+
+        if res != 0:
+            return False
+        return True
+    except Exception:
+        return False
+
+
+# 弹幕内容 str_time 是第几秒显示 speet 速率 默认 150 当显示时间一定时 该值越大，速度越快
+bage = [
+    {
+        "context": "Hello World 1 !!!",
+        "fontcolor": "white",
+        "fontsize": "40",
+        "fontfile": "PingFang-SC-Regular.ttf",
+        "y": "100",
+        "str_time": "2",
+        "speet": "150",
+    },
+    {
+        "context": "Hello World 2 !!!",
+        "fontcolor": "white",
+        "fontsize": "40",
+        "fontfile": "PingFang-SC-Regular.ttf",
+        "y": "200",
+        "str_time": "2",
+        "speet": "150",
+    },
+]
+
+
+# 视频添加弹幕
+def ins_barrage(input_file, barrage, out_file):
+    try:
+        if len(barrage) == 0:
+            return False
+
+        bag = []
+        bag_str = ", "
+        vf_str = ""
+
+        for val in barrage:
+            if val["fontsize"] == "":
+                val["fontsize"] = 40
+
+            if val["fontcolor"] == "":
+                val["fontcolor"] = "white"
+
+            if val["y"] == "":
+                val["y"] = "100"
+
+            if val["str_time"] == "":
+                val["str_time"] = 0
+            else:
+                val["str_time"] = int(val["str_time"])
+
+            if val["speet"] == "":
+                val["speet"] = 150
+            else:
+                val["speet"] = int(val["speet"])
+
+            txt = "drawtext=text='%s':fontcolor=%s:fontsize=%s:fontfile=%s:y=%s:x=w-(t-%d)*%d:enable='gte(t,%d)'" % (
+                val["context"],
+                val["fontcolor"],
+                val["fontsize"],
+                val["fontfile"],
+                val["y"],
+                val["str_time"],
+                val["speet"],
+                val["str_time"]
+            )
+            bag.append(txt)
+
+            vf_str = bag_str.join(bag)
+
+        cmd = "ffmpeg -y -i %s -vf \"%s\" %s" % (input_file, vf_str, out_file)
+        res = subprocess.call(cmd, shell=True)
+
+        if res != 0:
+            return False
+        return True
+    except Exception:
+        return False
+
+
+ins_barrage("/Users/master/yx/yxp/web/video/6/1/999/test.mp4", bage, "/Users/master/yx/yxp/web/video/6/1/999/b_out.mp4")
 
 """
 video_add_img("/Users/master/yx/yxp/web/video/6/1/999/test.mp4", img,"/Users/master/yx/yxp/web/video/6/1/999/c_out.mp4")
