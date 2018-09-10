@@ -1,4 +1,5 @@
 #!/usr/local/bin/python3
+# module sys
 
 
 import subprocess
@@ -114,6 +115,6 @@ def video_add_gif(input_file, img_data, out_file):
 
 
 """
-video_add_img("/Users/master/yx/yxp/web/video/6/1/999/tt.mp4", img,"/Users/master/yx/yxp/web/video/6/1/999/c_out.mp4")
+video_add_img("/Users/master/yx/yxp/web/video/6/1/999/test.mp4", img,"/Users/master/yx/yxp/web/video/6/1/999/c_out.mp4")
 video_add_gif("/Users/master/yx/yxp/web/video/6/1/999/test.mp4", img, "/Users/master/yx/yxp/web/video/6/1/999/c_test.mp4")
 """

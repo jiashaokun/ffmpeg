@@ -12,9 +12,9 @@ from setuptools import setup, find_packages
 
 setup(
     name = "ffmpeg",
-    version = "0.1.1",
+    version = "0.1.6",
     keywords = ("python ffmpeg"),
-    description = "ffmpeg python package",
+    description = "ffmpeg python package url [https://github.com/jiashaokun/ffmpeg]",
     long_description = "ffmpeg python package",
     license = "MIT Licence",
 
@@ -22,8 +22,7 @@ setup(
     author = "SkeyJIA",
     author_email = "363604236@qq.com",
 
-    packages = find_packages(),
+    packages = ['ffmpeg'],
     include_package_data = True,
     platforms = "any",
-    install_requires = ["unittest", "subprocess"]
 )
