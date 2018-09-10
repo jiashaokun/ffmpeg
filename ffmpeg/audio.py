@@ -1,14 +1,16 @@
 #!/usr/local/bin/python3
 
-from ffmpeg import video
-
-img = {
-    "img": "/Users/master/yx/yxp/web/video/6/1/999/img.apng",
-    "x": "20",
-    "y": "20",
-    "str_time": "2",
-    "end_time": "10"
-}
+import subprocess
 
 
-video.video_add_gif("/Users/master/yx/yxp/web/video/6/1/999/test.mp4", img, "/Users/master/yx/yxp/web/video/6/1/999/c_test.mp4")
+# 调整音频播放速率
+def audio_speed(input_file, speed, out_file):
+    try:
+        cmd = "ffmpeg -y -i %s -filter_complex \"atempo=tempo=%s\" %s" % (input_file, speed, out_file)
+        res = subprocess.call(cmd, shell=True)
+
+        if res != 0:
+            return False
+        return True
+    except Exception:
+        return False

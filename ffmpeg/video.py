@@ -4,27 +4,6 @@
 
 import subprocess
 
-"""
-ffmpeg -i input.mp4 -i 1.png -i 2.png -filter_complex "overlay=x=100:y=100:enable='if(gt(t,5),lt(t,10))',overlay=x=100:y=100:enable='if(gt(t,15),lt(t,20))'" -y 0.mp4
-
-img = [
-        {
-            "img": "/Users/master/yx/yxp/web/video/6/1/999/c_01.png",
-            "x": "",
-            "y": "",
-            "str_time": "5",
-            "end_time": "15",
-        },
-        {
-            "img": "/Users/master/yx/yxp/web/video/6/1/999/c_01.png",
-            "x": "",
-            "y": "",
-            "str_time": "20",
-            "end_time": "25.5"
-        }
-    ]
-"""
-
 
 def ins_img(input_file, img_data, out_file):
     try:
@@ -69,18 +48,8 @@ def ins_img(input_file, img_data, out_file):
         return False
 
 
-"""
-img = {
-    "img": "/Users/master/yx/yxp/web/video/6/1/999/img.apng",
-    "x": "20",
-    "y": "20",
-    "str_time": "2",
-    "end_time": "10"
-}
-"""
-
-
-def ins_gif(input_file, img_data, out_file):
+# 视频添加动图 gif apng
+def ins_dynamic_img(input_file, img_data, out_file):
     try:
         if img_data["img"] == "":
             return False
@@ -154,29 +123,6 @@ def trans_code(input_file, width, height, rate, out_file):
         return False
 
 
-# 弹幕内容 str_time 是第几秒显示 speet 速率 默认 150 当显示时间一定时 该值越大，速度越快
-bage = [
-    {
-        "context": "Hello World 1 !!!",
-        "fontcolor": "white",
-        "fontsize": "40",
-        "fontfile": "PingFang-SC-Regular.ttf",
-        "y": "100",
-        "str_time": "2",
-        "speet": "150",
-    },
-    {
-        "context": "Hello World 2 !!!",
-        "fontcolor": "white",
-        "fontsize": "40",
-        "fontfile": "PingFang-SC-Regular.ttf",
-        "y": "200",
-        "str_time": "2",
-        "speet": "150",
-    },
-]
-
-
 # 视频添加弹幕
 def ins_barrage(input_file, barrage, out_file):
     try:
@@ -231,9 +177,43 @@ def ins_barrage(input_file, barrage, out_file):
         return False
 
 
-ins_barrage("/Users/master/yx/yxp/web/video/6/1/999/test.mp4", bage, "/Users/master/yx/yxp/web/video/6/1/999/b_out.mp4")
+# 调整视频速率 speed 小于 1 减速，大于 1 加速 1 等速
+def playback_speed(input_file, speed, out_file):
+    try:
+        if speed == "":
+            speed = "1"
+        cmd = "ffmpeg -y -i %s -filter_complex \"setpts=PTS/%s\" %s" % (input_file, speed, out_file)
+        res = subprocess.call(cmd, shell=True)
 
-"""
-video_add_img("/Users/master/yx/yxp/web/video/6/1/999/test.mp4", img,"/Users/master/yx/yxp/web/video/6/1/999/c_out.mp4")
-video_add_gif("/Users/master/yx/yxp/web/video/6/1/999/test.mp4", img, "/Users/master/yx/yxp/web/video/6/1/999/c_test.mp4")
-"""
+        if res != 0:
+            return False
+        return True
+
+    except Exception:
+        return False
+
+
+# 视频倒放 ( 视频 + 音频 )
+def a_v_reverse(input_file, out_file):
+    try:
+        cmd = "ffmpeg -y -i %s -vf vf reverse -af areverse %s " % (input_file, out_file)
+        res = subprocess.call(cmd, shell=True)
+
+        if res != 0:
+            return False
+        return True
+    except Exception:
+        return False
+
+
+# 视频倒放 (视频)
+def v_reverse(input_file, out_file):
+    try:
+        cmd = "ffmpeg -y -i %s -vf vf reverse %s " % (input_file, out_file)
+        res = subprocess.call(cmd, shell=True)
+
+        if res != 0:
+            return False
+        return True
+    except Exception:
+        return False
