@@ -60,6 +60,6 @@ img_data = {
 }
 
 
-video.ins_gif(input_file, img_data, out_file)
+video.ins_dynamic_img(input_file, img_data, out_file)
 ```
 
