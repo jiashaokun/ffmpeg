@@ -217,3 +217,16 @@ def v_reverse(input_file, out_file):
         return True
     except Exception:
         return False
+
+
+# 视频截取 截取 duration 时长的视频 从 str_second 开始截取
+def v_intercept(input_file, str_second, duration, out_file):
+    try:
+        cmd = "ffmpeg -y -i %s -ss %s -t %s -f mp4 %s" % (input_file, str_second, duration, out_file)
+        res = subprocess.call(cmd, shell=True)
+
+        if res != 0:
+            return False
+        return True
+    except Exception:
+        return False

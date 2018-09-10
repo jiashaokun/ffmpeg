@@ -82,5 +82,17 @@ video.a_v_reverse("test.mp4", "out.mp4")
 # 倒放视频 音频不变
 video.v_reverse("test.mp4", "out.mp4")
 
+# 视频截取 从 str_second 开始截取 duration 时长的视频
+video.v_intercept("1.mp4", "10", "5", "out.mp4")
+
 # 调整音频速率
-audio.audio_speed("test.mp3", "2", "out.mp3")
+audio.a_speed("test.mp3", "2", "out.mp3")
+
+# 音频拼接
+audio.a_split(["1.mp3", "2.mp3", "3.mp3"], "out.mp3")
+
+# 设置音频音量大小
+audio.a_volume("1.mp3", "8", "out.mp3")
+
+# 音频截取
+audio.a_intercept("1.mp3", "10", "5", "out.mp3")
