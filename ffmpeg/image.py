@@ -43,8 +43,6 @@ def gif_trans_img(input_file, out_path, img_prefix, category="png"):
         out_img = "%s/%s.%s" % (out_path, img, category)
         cmd = "ffmpeg -y -i %s %s" % (input_file, out_img)
 
-        print(cmd)
-        exit()
         res = subprocess.call(cmd, shell=True)
 
         if res != 0:
