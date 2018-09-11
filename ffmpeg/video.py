@@ -230,3 +230,55 @@ def v_intercept(input_file, str_second, duration, out_file):
         return True
     except Exception:
         return False
+
+
+# 视频合并 严格模式 文件协议合并
+def strict_v_merge(input_file, out_file):
+    try:
+        cmd = "ffmpeg -y -f concat -safe 0 -i %s -acodec copy %s" % (input_file, out_file)
+        res = subprocess.call(cmd, shell=True)
+
+        if res != 0:
+            return False
+        return True
+    except Exception:
+        return False
+
+
+# 视频合并 有损模式 input_file_list = ["1.mp4", "2.ts", "3.flv"]
+def damage_v_merge(input_file_list, out_file):
+    try:
+        if len(input_file_list) < 2:
+            return False
+
+        video = []
+        video_n = len(input_file_list)
+        video_str = " -i "
+
+        comp_list = []
+        comp_str = " "
+        i = 0
+        for val in input_file_list:
+            video.append(val)
+            v_str = "[%s:a][%s:v]" % (i, i)
+            comp_list.append(v_str)
+
+            i += 1
+
+        video_list = video_str.join(video)
+        com_list_str = comp_str.join(comp_list)
+
+        cmd = "ffmpeg -y -i %s -filter_complex \"%s concat=n=%d:v=1:a=1\" -vcodec h264_nvenc %s" % (
+            video_list,
+            com_list_str,
+            video_n,
+            out_file
+        )
+
+        res = subprocess.call(cmd, shell=True)
+
+        if res != 0:
+            return False
+        return True
+    except Exception:
+        return False

@@ -5,6 +5,8 @@ from ffmpeg import video
 
 from ffmpeg import audio
 
+from ffmpeg import image
+
 
 # 添加多个图片
 img = [
@@ -96,3 +98,12 @@ audio.a_volume("1.mp3", "8", "out.mp3")
 
 # 音频截取
 audio.a_intercept("1.mp3", "10", "5", "out.mp3")
+
+# 图片转换gif动图
+image.img_trans_gif("png/text_%02d.jpg", "out.gif")
+
+# 图片转 mp4  5: 时长为 5 秒的 mp4
+image.img_trans_video("png/text_%02d.jpg", "5", "out.mp4")
+
+# gif 转 png
+image.gif_trans_img("test.gif", "a/b/c", "img_name", "png")
