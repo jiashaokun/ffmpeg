@@ -63,3 +63,10 @@ img_data = {
 video.ins_dynamic_img(input_file, img_data, out_file)
 ```
 
+### 图片处理   图片转 mp4  5: 时长为 5 秒的 mp4
+```shell
+from ffmpeg import image
+
+image.img_trans_video("png/text_%02d.jpg", "5", "out.mp4")
+```
+

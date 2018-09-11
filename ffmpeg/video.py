@@ -282,3 +282,21 @@ def damage_v_merge(input_file_list, out_file):
         return True
     except Exception:
         return False
+
+
+# 视频转 图片
+def video_trans_img(input_file, out_path, img_prefix, category="png"):
+    try:
+        out_path = out_path.rstrip("/")
+        img = img_prefix + "_%d"
+
+        out_img = "%s/%s.%s" % (out_path, img, category)
+        cmd = "ffmpeg -i %s -f image2 %s" % (input_file, out_img)
+
+        res = subprocess.call(cmd, shell=True)
+
+        if res != 0:
+            return False
+        return True
+    except Exception:
+        return False

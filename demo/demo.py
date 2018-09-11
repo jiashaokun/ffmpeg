@@ -87,6 +87,9 @@ video.v_reverse("test.mp4", "out.mp4")
 # 视频截取 从 str_second 开始截取 duration 时长的视频
 video.v_intercept("1.mp4", "10", "5", "out.mp4")
 
+# 视频转图片
+video.video_trans_img("test.mp4", "a/b/c", "img_name", "png")
+
 # 调整音频速率
 audio.a_speed("test.mp3", "2", "out.mp3")
 

@@ -3,8 +3,6 @@
 
 import subprocess
 
-import os
-
 
 # png 转 gif
 def img_trans_gif(png_list, out_file):
