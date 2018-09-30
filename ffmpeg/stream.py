@@ -208,7 +208,6 @@ if __name__ == '__main__':
     stream.word_water_mark("测试文字水印1", x="10", y="10", str_time="0", end_time="20", color="blue")
     stream.word_water_mark("测试文字水印2", x="10", y="10", str_time="0", end_time="20", color="blue")
     stream.subbtitle("/Users/master/yx/yxp/web/video/6/1/999/36390976_1531850524496.srt")
-    stream.subbtitle("/Users/master/yx/yxp/web/video/6/1/999/36390976_1531850524497.srt")
     stream.out("out.mp4")
     stream.run()
 
