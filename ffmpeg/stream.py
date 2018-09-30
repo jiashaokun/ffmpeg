@@ -10,18 +10,20 @@ import subprocess
 
 class Stream(object):
     def __init__(self):
-        self.input_file = ""
-        self.img_file = []
-        self.image_list = {}
+        self.cmd = ""
         self.out_file = ""
-        self.cmd = []
-        self.img_dynamic_list = []
-        self.dynamic_list = {}
-        self.word_list = []
+        self.vcode_type = ""
+        self.input_file = ""
         self.word_list_str = ""
         self.subbtitle_file = ""
-        self.vcode_type = ""
-        self.cmd = ""
+
+        self.cmd = []
+        self.img_file = []
+        self.word_list = []
+        self.img_dynamic_list = []
+
+        self.image_list = {}
+        self.dynamic_list = {}
 
     # 输入文件
     def input(self, file):
