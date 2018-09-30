@@ -72,7 +72,8 @@ image.img_trans_video("png/text_%02d.jpg", "5", "out.mp4")
 
 ### 符合模式
 ```python
-stream = Stream()
+    from ffmpeg import stream
+    stream = Stream()
     # 输入文件
     stream.input(input_file)
     # 图片
