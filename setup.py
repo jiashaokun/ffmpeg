@@ -12,7 +12,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "ffmpeg",
-    version = "1.3.2",
+    version = "1.4",
     keywords = ("python ffmpeg"),
     description = "ffmpeg python package url [https://github.com/jiashaokun/ffmpeg]",
     long_description = "ffmpeg python package",
