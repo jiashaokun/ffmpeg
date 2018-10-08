@@ -1,5 +1,5 @@
-#!/usr/local/bin/python3
-# module sys
+#!/usr/bin/python2.7
+# coding=utf-8
 
 import os
 
@@ -61,7 +61,7 @@ class Stream(object):
                 )
             )
 
-        img_input_str = ",".join(img_input)
+        img_input_str = " ".join(img_input)
         img_overlay_str = ",".join(img_overlay)
 
         self.image_list = {
@@ -97,7 +97,7 @@ class Stream(object):
                     val["end_time"]
                 )
             )
-        img_dy_input_str = ",".join(img_dy_input)
+        img_dy_input_str = " ".join(img_dy_input)
         img_dy_overlay_str = ",".join(img_dy_overlay)
 
         self.dynamic_list = {
@@ -107,6 +107,8 @@ class Stream(object):
 
     # 添加文字水印
     def word_water_mark(self, c, x="0", y="0", str_time="0", end_time="0", font="", color="white"):
+        if font == "":
+            return False
         input_info = self.video_info()
         if c == "":
             return False
@@ -172,9 +174,9 @@ class Stream(object):
                 ov = self.subbtitle_file
 
         if self.vcode_type != "":
-            self.cmd = "%s -filter_complex\"%s\" -y %s %s" % (im, ov, self.vcode_type, self.out_file)
+            self.cmd = "%s -filter_complex \"%s\" -y %s %s" % (im, ov, self.vcode_type, self.out_file)
         else:
-            self.cmd = "%s -filter_complex\"%s\" -y %s" % (im, ov, self.out_file)
+            self.cmd = "%s -filter_complex \"%s\" -y %s" % (im, ov, self.out_file)
 
         self.do()
 
@@ -192,6 +194,8 @@ class Stream(object):
     def do(self):
         if self.cmd == "":
             return False
+        print(self.cmd)
+        exit()
         res = subprocess.call(self.cmd, shell=True)
         if res != 0:
             return False
@@ -200,14 +204,14 @@ class Stream(object):
 
 if __name__ == '__main__':
     stream = Stream()
-    stream.input("/Users/master/yx/yxp/web/video/6/1/999/face.mp4")
+    stream.input("face.mp4")
     stream.img("t1.png")
     stream.img("t2.png", "10", y=10, str_time=5, end_time=10)
-    stream.img_dynamic("/Users/master/yx/yxp/web/video/6/1/999/ct.apng", x=10, y=10, str_time=5, end_time=10)
-    stream.img_dynamic("/Users/master/yx/yxp/web/video/6/1/999/ct1.apng", x=10, y=10, str_time=5, end_time=9)
-    stream.word_water_mark("测试文字水印1", x="10", y="10", str_time="0", end_time="20", color="blue")
-    stream.word_water_mark("测试文字水印2", x="10", y="10", str_time="0", end_time="20", color="blue")
-    stream.subbtitle("/Users/master/yx/yxp/web/video/6/1/999/36390976_1531850524496.srt")
+    stream.img_dynamic("t1.apng", x=10, y=10, str_time=5, end_time=10)
+    stream.img_dynamic("t2.apng", x=10, y=10, str_time=5, end_time=9)
+    stream.word_water_mark("测试文字水印1", x="10", y="10", str_time="0", end_time="20", font="ttf.ttf", color="white")
+    stream.word_water_mark("测试文字水印2", x="10", y="10", str_time="0", end_time="20", font="ttf.ttf", color="white")
+    stream.subbtitle("srt.srt")
     stream.out("out.mp4")
     stream.run()
 
