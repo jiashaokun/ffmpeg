@@ -72,23 +72,23 @@ image.img_trans_video("png/text_%02d.jpg", "5", "out.mp4")
 
 ### 符合模式
 ```python
-    from ffmpeg import stream
-    stream = Stream()
-    # 输入文件
-    stream.input(input_file)
-    # 图片
-    stream.img("t1.png")
-    stream.img("t2.png", "10", y=10, str_time=5, end_time=10)
-    # 动图
-    stream.img_dynamic("t1.apng", x=10, y=10, str_time=5, end_time=10)
-    stream.img_dynamic("t2.gif", x=10, y=10, str_time=5, end_time=9)
-    # 文字水印
-    stream.word_water_mark("test1", x="10", y="10", str_time="0", end_time="20", font="ttf.ttf", color="blue")
-    stream.word_water_mark("test2", x="10", y="10", str_time="0", end_time="20", font="ttf.ttf", color="blue")
-    # 字幕
-    stream.subbtitle("tt.srt")
-    # 输出文件
-    stream.out(out_file)
-    stream.run()
+from ffmpeg import stream
+stream = Stream()
+# 输入文件
+stream.input(input_file)
+# 图片
+stream.img("t1.png")
+stream.img("t2.png", "10", y=10, str_time=5, end_time=10)
+# 动图
+stream.img_dynamic("t1.apng", x=10, y=10, str_time=5, end_time=10)
+stream.img_dynamic("t2.gif", x=10, y=10, str_time=5, end_time=9)
+# 文字水印
+stream.word_water_mark("test1", x="10", y="10", str_time="0", end_time="20", font="ttf.ttf", color="blue")
+stream.word_water_mark("test2", x="10", y="10", str_time="0", end_time="20", font="ttf.ttf", color="blue")
+# 字幕
+stream.subbtitle("tt.srt")
+# 输出文件
+stream.out(out_file)
+stream.run()
 ```
 
