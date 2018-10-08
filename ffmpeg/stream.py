@@ -194,8 +194,6 @@ class Stream(object):
     def do(self):
         if self.cmd == "":
             return False
-        print(self.cmd)
-        exit()
         res = subprocess.call(self.cmd, shell=True)
         if res != 0:
             return False
