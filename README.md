@@ -70,7 +70,7 @@ from ffmpeg import image
 image.img_trans_video("png/text_%02d.jpg", "5", "out.mp4")
 ```
 
-### 符合模式
+### 复合模式
 ```python
 from ffmpeg import stream
 stream = Stream()
