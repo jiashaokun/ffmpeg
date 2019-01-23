@@ -25,9 +25,15 @@ class Stream(object):
         self.image_list = {}
         self.dynamic_list = {}
 
+        self.nvenc = False
+
     # 输入文件
     def input(self, file):
         self.input_file = file
+
+    # 显卡加速
+    def h264_nvenc(self):
+        self.nvenc = True
 
     # 添加图片
     def img(self, img, x="0", y="0", str_time="0", end_time="0"):
@@ -135,7 +141,10 @@ class Stream(object):
     def out(self, file):
         if file == "":
             return False
-        self.out_file = "%s" % file
+        if self.nvenc is True:
+            self.out_file = "%s -vcodec h264_nvenc" % file
+        else:
+            self.out_file = "%s" % file
 
     # 执行脚本
     def run(self):
