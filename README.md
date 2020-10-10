@@ -1,5 +1,7 @@
 # ffmpeg python
 
+>* 该项目是使用 python 对 FFmpeg 的类库做了一次封装使用，因最近不搞视频，所以很长时间不维护了，大家可以参照写法，使用 python 构建自己的视频处理服务（Dont forget GPU）。
+
 ## 系统依赖
 ffmpeg 3.0 及以上
 python 3.0 及以上
