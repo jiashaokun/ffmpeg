@@ -4,9 +4,15 @@
 
 ## 系统依赖
 ffmpeg 3.0 及以上
+ffprobe 3.0 及以上
 python 3.0 及以上
 
 mac，linux，windows 相应的 gpu 显卡驱动 （使用硬编码时需支持）
+
+### ffmpeg安装参见
+[安装ffmpeg](https://note.youdao.com/s/PgfOK55h)
+
+[ffmpeg命令总结](https://note.youdao.com/s/68D7uJUL)
 
 ### Install
 ```shell
@@ -82,13 +88,15 @@ stream.input(input_file)
 stream.img("t1.png")
 stream.img("t2.png", "10", y=10, str_time=5, end_time=10)
 # 动图
-stream.img_dynamic("t1.apng", x=10, y=10, str_time=5, end_time=10)
+stream.img_dynamic("t1.apng", "10", "10", "5", "10")
 stream.img_dynamic("t2.gif", x=10, y=10, str_time=5, end_time=9)
 # 文字水印
 stream.word_water_mark("test1", x="10", y="10", str_time="0", end_time="20", font="ttf.ttf", color="blue")
 stream.word_water_mark("test2", x="10", y="10", str_time="0", end_time="20", font="ttf.ttf", color="blue")
 # 字幕
 stream.subbtitle("tt.srt")
+# 显卡加速，该方式目前只适用于 mac 和 navida, 参数size是视频大小，该值越大，越慢
+stream.fast("5M")
 # 输出文件
 stream.out(out_file)
 stream.run()

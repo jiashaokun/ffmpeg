@@ -1,3 +1,5 @@
 .idea/
 dist/
 ffmpeg.egg-info/
+.DS_Store
+venv/

@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python3
 # coding=utf-8
 
 import os
@@ -6,6 +6,8 @@ import os
 import json
 
 import subprocess
+
+import platform
 
 
 class Stream(object):
@@ -25,9 +27,19 @@ class Stream(object):
         self.image_list = {}
         self.dynamic_list = {}
 
+        # 使用gpu加速后的视频大小
+        self.gpu = False
+        self.gpu_size = ""
+
     # 输入文件
     def input(self, file):
         self.input_file = file
+
+    # 使用gpu加速 0代表原视频大小 该值越大，越慢(2000k 或者 5M)
+    def fast(self, size=""):
+        self.gpu = True
+        self.gpu_size = size
+        return
 
     # 添加图片
     def img(self, img, x="0", y="0", str_time="0", end_time="0"):
@@ -53,7 +65,7 @@ class Stream(object):
 
         for val in self.img_file:
             img_input.append(" -i %s" % val["img"])
-            img_overlay.append(" overlay=x=%s:y=%s:enable='if(gt(t,%s),lt(t,%s))" % (
+            img_overlay.append(" overlay=x=%s:y=%s:enable='if(gt(t,%s),lt(t,%s))'" % (
                     val["x"],
                     val["y"],
                     val["str_time"],
@@ -153,11 +165,10 @@ class Stream(object):
                 ov = self.dynamic_list["overlay"]
         if len(self.image_list) > 0:
             im = "%s %s" % (im, self.image_list["input"])
-
             if ov != "":
-                ov = "%s,%s" % (ov, self.dynamic_list["overlay"])
+                ov = "%s,%s" % (ov, self.image_list["overlay"])
             else:
-                ov = self.dynamic_list["overlay"]
+                ov = self.image_list["overlay"]
 
         # 文字水印
         if self.word_list_str != "":
@@ -173,11 +184,28 @@ class Stream(object):
             else:
                 ov = self.subbtitle_file
 
+        if self.gpu == True:
+            # 筛选mac或者其他的gpu
+            info = platform.platform()
+            listSys = str(info).split("-")
+            if listSys[0] == "macOS" or listSys[0] == "Darwin":
+                if self.gpu_size != "":
+                    im = "%s -c:v %s -b:v %s" % (im, "h264_videotoolbox", self.gpu_size)
+                else:
+                    im = "%s -c:v %s" % (im, "h264_videotoolbox")
+            else:
+                if self.gpu_size != "":
+                    im = "%s -c:v %s -b:v %s" % (im, "h264_nvenc", self.gpu_size)
+                else:
+                    im = "%s -c:v %s" % (im, "h264_nvenc")
+
         if self.vcode_type != "":
             self.cmd = "%s -filter_complex \"%s\" -y %s %s" % (im, ov, self.vcode_type, self.out_file)
         else:
-            self.cmd = "%s -filter_complex \"%s\" -y %s" % (im, ov, self.out_file)
-
+            if ov != "":
+                self.cmd = "%s -filter_complex \"%s\" -y %s" % (im, ov, self.out_file)
+            else:
+                self.cmd = "%s  -y %s" % (im, self.out_file)
         self.do()
 
     # 获取视频的相关时长信息
@@ -194,6 +222,7 @@ class Stream(object):
     def do(self):
         if self.cmd == "":
             return False
+        print(self.cmd)
         res = subprocess.call(self.cmd, shell=True)
         if res != 0:
             return False
@@ -203,13 +232,14 @@ class Stream(object):
 if __name__ == '__main__':
     stream = Stream()
     stream.input("face.mp4")
-    stream.img("t1.png")
-    stream.img("t2.png", "10", y=10, str_time=5, end_time=10)
-    stream.img_dynamic("t1.apng", x=10, y=10, str_time=5, end_time=10)
-    stream.img_dynamic("t2.apng", x=10, y=10, str_time=5, end_time=9)
-    stream.word_water_mark("测试文字水印1", x="10", y="10", str_time="0", end_time="20", font="ttf.ttf", color="white")
-    stream.word_water_mark("测试文字水印2", x="10", y="10", str_time="0", end_time="20", font="ttf.ttf", color="white")
+    stream.img("t1.png", "50", "60", "5", "10")
+    stream.img("t2.png", "10", "10", "5", "10")
+    stream.img_dynamic("a.gif", "100", "100", "15", "30")
+    stream.img_dynamic("a.gif", "200", "200", "15", "30")
+    stream.word_water_mark("测试文字水印1", "100", "100", "10", "50", "ttf.ttf", "white")
+    stream.word_water_mark("测试文字水印2", "200", "200", "10", "50", "ttf.ttf", "black")
     stream.subbtitle("srt.srt")
+    stream.fast("5M")
     stream.out("out.mp4")
     stream.run()
 
