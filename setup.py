@@ -16,7 +16,7 @@ setup(
     keywords = ("python ffmpeg"),
     description = "ffmpeg python package url [https://github.com/jiashaokun/ffmpeg]",
     long_description = "ffmpeg python package",
-    license = "MIT Licence",
+    license = "MIT License",
 
     url = "https://github.com/jiashaokun/ffmpeg",
     author = "SkeyJIA",
